@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Задача 3</title>
+  </head>
+
+  <body>
+    <h1>Задача 3</h1>
+
+    <table border="1">
+      <tr>
+        <td>Об’єкт “Фірма” (використати члени-класи)</td>
+      </tr>
+      <tr>
+        <td>Поля</td>
+        <td>
+          <ul>
+            <li>назва фірми;</li>
+            <li>дата заснування (рік, місяць);</li>
+            <li>послуги (назва послуги, вартість, термін виконання);</li>
+            <li>адреси філіалів (країна, місто, вулиця, номер будинку);</li>
+          </ul>
+        </td>
+      </tr>
+      <td>Методи</td>
+      <td>
+        <ul>
+          <li>визначення кількості років існування фірми;</li>
+          <li>виведення всіх філіалів фірми у вказаному місті;</li>
+          <li>
+            виведення на екран послуг, що можуть бути виконані за вказану суму
+            грошей та вказаний термін часу;
+          </li>
+        </ul>
+      </td>
+    </table>
+    <script>
+      class Service {
+        #title
+        #price
+        #implementation
+        constructor(title, price, implementation) {
+          this.title = title
+          this.price = price
+          this.implementation = implementation
+        }
+        get Title() {
+          return this.#title
+        }
+        set Title(title) {
+          this.#title = title
+        }
+        get Price() {
+          return this.#price
+        }
+        set Price(price) {
+          if (!isFinite(price) || price < 0)
+            throw new Error("Введена не правильна ціна")
+        }
+        get Implementation() {
+          return this.#implementation
+        }
+        set Implementation(time) {
+          if (!isFinite(time) || time < 0)
+            throw new Error("Неправильний час виконання")
+        }
+        toString() {
+          return `<br>Назна - ${this.title} <br> Час виконання - ${this.implementation} хв. <br>  Ціна - ${this.price} <br>`
+        }
+      }
+      class addressesBranches {
+        #country
+        #city
+        #street
+        #houseNumber
+        constructor(country, city, street, houseNumber) {
+          this.country = country
+          this.city = city
+          this.street = street
+          this.houseNumber = houseNumber
+        }
+        get Country() {
+          return this.#country
+        }
+        set Country(country) {
+          this.#country = country
+        }
+        get City() {
+          return this.#city
+        }
+        set City(city) {
+          this.#city = city
+        }
+        get Street() {
+          return this.#street
+        }
+        set Street(street) {
+          this.#street = street
+        }
+        get HouseNumber() {
+          return this.#houseNumber
+        }
+        set HouseNumber(number) {
+          if (!isFinite(number) || number < 0)
+            throw new Error("Неправильний введений номер будинку")
+          this.#houseNumber = number
+        }
+        toString() {
+          return `Філії <br>
+      країна - ${this.country} <br>
+      місто - ${this.city} <br>
+      вулиця - ${this.street} <br>
+      нобер будівлі - ${this.houseNumber} <br>`
+        }
+      }
+
+      class Company {
+        constructor(companyName, yearCreation) {
+          this.companyName = companyName
+          this.yearCreation = yearCreation
+          this.companyServices = [
+            new Service("Ремонт ОРГ техніки", 200, 20),
+            new Service("Авто мийка", 100, 45),
+            new Service("Встанговдлення Сонячних панелей", 20000, 300),
+          ]
+          this.companyNavigation = [
+            new addressesBranches("Україна", "Ужгород", "Собранецька", 34),
+            new addressesBranches("Словаччина", "Кошице", "Палачего", 1),
+            new addressesBranches("Угорщина", "Ніредхаза", "Кошут", 15),
+          ]
+        }
+        getNumOfYears() {
+          let year = new Date().getFullYear()
+          return year - this.yearCreation
+        }
+        getBranchesOfTheCompany(branches) {
+          for (const navigation of companyNavigation) {
+            if (navigation.citys === branches) document.write(navigation)
+          }
+        }
+        getCompanyService(money, terms) {
+          for (const servic of this.companyServices) {
+            if (servic.cost <= money && servic.implementation <= terms)
+              document.write(servic)
+          }
+        }
+        toString() {
+          return `Фірма - ${this.companyName}  <br>
+                        Дата заснування - ${this.yearCreation}  <br>
+                        Послуги - ${this.companyServices}  <br>
+       ${this.companyNavigation} <br>
+                    `
+        }
+      }
+
+      let comp = new Company("Еко Сервіс", 2016)
+      document.write(comp)
+    </script>
+  </body>
+</html>

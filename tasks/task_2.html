@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Задача 2</title>
+  </head>
+
+  <body>
+    <h1>Задача 2</h1>
+    <p>
+      Створити клас TMoney для роботи з грошовими сумами. Сума повинна
+      зберігатися у вигляді доларового еквіваленту. Реалізувати методи
+      додавання/вилучення грошової маси, вказуючи необхідну суму у гривнях, та
+      визначення курсу долара, при якому сума у гривнях збільшиться на 100. Курс
+      долара зберігати в окремому полі.
+    </p>
+
+    <script>
+      class TMoney {
+        #money
+        constructor(sumMoney, rate) {
+          this.dollarRate = rate
+          this.Money = sumMoney / this.dollarRate
+        }
+        get Money() {
+          return this.#money
+        }
+        set Money(sumMoney) {
+          if (sumMoney < 0) throw new Error("Перерахувати гроші")
+          this.#money = sumMoney
+        }
+        getMoney(user) {
+          if (this.Money * this.dollarRate >= user && user > 0) {
+            this.Money = (this.Money * this.dollarRate - user) / this.dollarRate
+            console.log(this.Money)
+            alert(
+              `Ви вивели ${user} грн. Залешок ${this.Money * this.dollarRate}`
+            )
+          }
+        }
+        addMoney(user) {
+          if (user > 0) {
+            this.Money = (this.Money * this.dollarRate + user) / this.dollarRate
+            alert(
+              `Ваш вклад ${user} грн. Залишок ${this.Money * this.dollarRate}`
+            )
+          }
+        }
+        newDollarRate() {
+          let newDollarRate = (this.Money * this.dollarRate + 100) / this.Money
+          alert(`Новий курс - ${newDollarRate}`)
+        }
+        toString() {
+          this.getMoney()
+          document.write(`Рахунок - ${this.Money}$ `)
+        }
+      }
+      new TMoney(10000, 40).toString()
+    </script>
+  </body>
+</html>

@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Задача 4</title>
+  </head>
+
+  <body>
+    <h1>Задача 4</h1>
+    <p>
+      Створити клас TBankomat, який моделює роботу банкомата. Клас повинен
+      містити поля для зберігання кількості купюр кожного із номіналів від 5 до
+      200 гривень. Реалізувати методи знаходження максимальної та мінімальної
+      сум, які може видати банкомат, та метод зняття деякої суми.
+    </p>
+
+    <script>
+      class TBankomat {
+        constructor() {
+          this.cash = {
+            5: 0,
+            10: 0,
+            20: 0,
+            50: 0,
+            100: 0,
+            200: 0,
+          }
+        }
+        addCash(bill, count) {
+          this.cash[bill] += count
+        }
+        getMaxSumCash() {
+          let sum = 0
+          for (let bill in this.cash) {
+            sum += bill * this.cash[bill]
+          }
+          return sum
+        }
+        getMinCash() {
+          for (let bill = 5; bill <= 200; bill += 5) {
+            if (this.cash[bill] > 0) {
+              return bill
+            }
+          }
+          return 0
+        }
+        toString() {
+          return `Залишок - ${this.getMaxSumCash()}`
+        }
+        cashWithdrawal(amountCash) {
+          let remainingSum = amountCash
+          let drawnBills = {}
+          for (let bill in this.cash) {
+            let count = Math.min(
+              Math.floor(remainingSum / bill),
+              this.cash[bill]
+            )
+            remainingSum -= count * bill
+            drawnBills[bill] = count
+            this.cash[bill] -= count
+          }
+          if (remainingSum !== 0) {
+            this.returnCash(drawnBills)
+            return `відсутній номінал купюр`
+          }
+          return drawnBills
+        }
+        returnCash(cash) {
+          for (let bill in cash) {
+            this.cash[bill] += cash[bill]
+          }
+        }
+      }
+      let bankomat = new TBankomat()
+      bankomat.addCash(5, 20)
+      bankomat.addCash(10, 15)
+      bankomat.addCash(20, 10)
+      bankomat.addCash(50, 50)
+      bankomat.addCash(100, 5)
+      bankomat.addCash(200, 3)
+      console.log(bankomat.getMaxSumCash())
+      console.log(bankomat.getMinCash())
+
+      document.write(bankomat)
+    </script>
+  </body>
+</html>

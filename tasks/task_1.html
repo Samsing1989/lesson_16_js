@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="zxx">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Задача 1</title>
+  </head>
+
+  <body>
+    <h1>Задача 1</h1>
+    <p>
+      Створити клас TDate для роботи із датами у форматі “день.місяць.рік”. Дата
+      представляється структурою із трьома полями. Реалізувати методи
+      збільшення/зменшення дати на певну кількість днів, місяців чи років.
+      Введення та виведення дати реалізувати за допомогою методу toString.
+    </p>
+    <script>
+      class TDate {
+        #day
+        #month
+        #year
+        constructor(day, month, year) {
+          this.#day = day
+          this.#month = month
+          this.#year = year
+        }
+        get Day() {
+          return this.#day
+        }
+        set Day(day) {
+          if (day < 1 || day > 30) throw new Error("День введено не вірно")
+          this.#day = day
+        }
+        get Month() {
+          return this.#month
+        }
+        set Month(month) {
+          if (month < 1 || month > 12)
+            throw new Error("місяць введено не вірно")
+          this.#month = month
+        }
+        get Year() {
+          return this.#year
+        }
+        set Year(year) {
+          if (year < 0) throw new Error("рік введено не вірно")
+          this.#year = year
+        }
+        addingDay(val) {
+          this.addingMonth(Math.floor((this.Day + val) / 30))
+          this.Day = ((this.Day - 1 + val) % 30) + 1
+        }
+        addingMonth(val) {
+          this.addingYear(Math.floor((this.Month - 1 + val) / 12))
+          this.Month = ((this.Month - 1 + val) % 12) + 1
+        }
+        addingYear(val) {
+          this.Year = this.Year + val
+        }
+
+        reduceDay(val) {
+          while (val > 0) {
+            if (val >= this.Day) {
+              val -= this.Day
+              this.month -= 1
+              if (this.Month === 0) {
+                this.Month = 12
+                this.Year -= 1
+              }
+              this.Day = 30
+            } else {
+              this.Day -= val
+              val = 0
+            }
+          }
+        }
+        reduceMonth(val) {
+          while (val > 0) {
+            if (val >= this.Month) {
+              val -= this.Month
+              this.Year -= 1
+              this.Month = 12
+            } else {
+              this.Month -= val
+              val = 0
+            }
+          }
+        }
+        reduceYear(val) {
+          this.Year -= val
+        }
+        toString(val) {
+          this.addingDay(val)
+          document.write(`${this.Day}:${this.Month}:${this.Year}`)
+        }
+      }
+      new TDate(24, 4, 2022).toString(360)
+    </script>
+  </body>
+</html>
